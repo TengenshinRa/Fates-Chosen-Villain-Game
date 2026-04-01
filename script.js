@@ -6,6 +6,53 @@ let realmLevel = 1;  // aktueller Realm
 let qiPills = 0; // Anzahl der gesammelten Qi-Pillen
 const realms = ["Mortal", "Qi Condensation", "Foundation Establishment", "Core Formation", "Golden Core","Nascent Soul", "Spirit Severing", "Void Refinement", "Ascension", "Immortal"];
 
+// --- SPEICHERSYSTEM ---
+function saveGame() {
+    const saveData = {
+        qi: qi,
+        maxQi: maxQi,
+        realmLevel: realmLevel,
+        qiPills: qiPills,
+        destinyPoints: destinyPoints
+    };
+    localStorage.setItem('fatedVillainSave', JSON.stringify(saveData));
+}
+
+function loadGame() {
+    const saveString = localStorage.getItem('fatedVillainSave');
+    if (saveString) {
+        try {
+            const saveData = JSON.parse(saveString);
+            qi = saveData.qi ?? 0;
+            maxQi = saveData.maxQi ?? 100;
+            realmLevel = saveData.realmLevel ?? 1;
+            qiPills = saveData.qiPills ?? 0;
+            destinyPoints = saveData.destinyPoints ?? 0;
+            log("Spielfortschritt geladen.");
+        } catch (e) {
+            console.error("Fehler beim Laden des Spielstands", e);
+        }
+    }
+    updateUI();
+}
+
+function resetGame() {
+    localStorage.removeItem('fatedVillainSave');
+    qi = 0;
+    maxQi = 100;
+    realmLevel = 1;
+    qiPills = 0;
+    destinyPoints = 0;
+    log("Spiel zurückgesetzt.");
+    updateUI();
+}
+
+window.onload = function() {
+    loadGame();
+    // Automatisches Speichern alle 30 Sekunden
+    setInterval(saveGame, 30000);
+};
+
 function updateUI() {
     document.getElementById('qi').innerText = Math.floor(qi);
     document.getElementById('max-qi').innerText = maxQi;
@@ -51,9 +98,13 @@ function breakthrough() {
         log("DEVIATION! Dein Qi spielt verrückt. Du verlierst Fortschritt.");
     }
     updateUI();
+    saveGame();
 }
 
 function log(msg) {
     const logBox = document.getElementById('log');
     logBox.innerHTML = `<p>${msg}</p>` + logBox.innerHTML;
 }
+
+// @JULES: Hier bitte als nächstes die Funktion 'stealLuck()' einbauen, 
+// mit der man Schicksalspunkte von NPCs rauben kann.
