@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Xianxia Cultivator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-container">
+        <h1>Immortal Path: Fated Villain</h1>
+        
+        <div class="stats">
+            <p>Realm: <span id="realm">Gelehrter (Stufe 1)</span></p>
+            <p>Qi-Speicher: <span id="qi">0</span> / <span id="max-qi">100</span></p>
+            <p>Kultivierungs-Basis: <span id="base">Mortal</span></p>
+        </div>
+
+        <div class="actions">
+            <button onclick="cultivate()">Meditieren (Qi sammeln)</button>
+            <button onclick="breakthrough()" id="break-btn" style="display:none;">Durchbruch wagen!</button>
+        </div>
+
+        <div id="log">
+            <p>Dein Weg zur Unsterblichkeit beginnt...</p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
